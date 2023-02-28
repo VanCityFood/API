@@ -1,3 +1,8 @@
+
+using Microsoft.EntityFrameworkCore;
+using VanCityFood.Models;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var connValue = builder.Configuration["ConnectionStrings:VCFdb"];
+
+builder.Services.AddDbContext<Context>(opt => opt.UseSqlServer(connValue));
+builder.Services.AddScoped<IContext>(provider => provider.GetService<Context>());
 
 var app = builder.Build();
 
