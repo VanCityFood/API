@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VanCityFood.Models;
 
 namespace VanCityFood.Controllers
@@ -31,9 +32,10 @@ namespace VanCityFood.Controllers
         }
 
         [HttpGet("restaurant/{id}")]
-        public async Task<ActionResult<IEnumerable<UserReview>>> GetAllReviewsByRestaurant(Restaurant restaurant)
+        public async Task<IEnumerable<UserReview>> GetAllReviewsByRestaurant(Restaurant restaurant)
         {
-            var reviews = _context.UserReviews.Where(r=> r.RestId == restaurant.Id).ToList();
+            var reviews = await _context.UserReviews.Where(r => r.RestId == restaurant.Id).ToListAsync();
+
             if (reviews.Count == 0)
             {
                 return null;
@@ -43,7 +45,7 @@ namespace VanCityFood.Controllers
         [HttpGet("user/{id}")]
         public async Task<ActionResult<IEnumerable<UserReview>>> GetAllReviewsByUser(User user)
         {
-            var reviews = _context.UserReviews.Where(r=> r.UserId == user.Id).ToList(); 
+            var reviews = await _context.UserReviews.Where(r=> r.UserId == user.Id).ToListAsync(); 
 
             if (reviews.Count == 0)
             {
