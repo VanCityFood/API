@@ -7,7 +7,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace VanCityFood.Controllers
 {
-    [Route("api/controller")]
+    [Route("api/controller/")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace VanCityFood.Controllers
         {
             _context = context;
         }
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             if(!UserExists(id))
@@ -29,7 +29,7 @@ namespace VanCityFood.Controllers
             return user;
         }
 
-        [HttpPost("/new")]
+        [HttpPost]
         public async Task<ActionResult<User>> CresteNewUser(User user)
         {
             if(user == null)
