@@ -30,7 +30,7 @@ namespace VanCityFood.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> CresteNewUser(User user)
+        public async Task<ActionResult<User>> CreateNewUser(User user)
         {
             if(user == null)
             {
