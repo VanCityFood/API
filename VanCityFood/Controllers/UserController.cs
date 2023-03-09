@@ -48,7 +48,7 @@ namespace VanCityFood.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public ActionResult<User> UserLogin(User user)
         {
             if(user == null)
@@ -62,9 +62,27 @@ namespace VanCityFood.Controllers
 
             if(currentUser == null)
             {
-                return BadRequest();
+                return NotFound();
             }
             return currentUser;
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveUserById(int id)
+        {
+            if(_context.Users == null)
+            {
+                return BadRequest();
+            }
+            var user = await _context.Users.FindAsync(id);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+            _context.Users.Remove(user);
+            await _context.CommitChangesAsync();
+            return NoContent();
         }
 
         private string EncryptUserPassword(string password)
