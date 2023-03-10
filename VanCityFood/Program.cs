@@ -17,6 +17,18 @@ var connValue = builder.Configuration["ConnectionStrings:VCFdb"];
 builder.Services.AddDbContext<Context>(opt => opt.UseSqlServer(connValue));
 builder.Services.AddScoped<IContext>(provider => provider.GetService<Context>());
 
+var vanCityFoodApi = "vanCityFoodApi";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: vanCityFoodApi,
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyOrigin();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
